@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from "uuid";
 
 const manager = () => {
     const [form, setform] = useState({ site: "", username: "", password: "" })
@@ -39,11 +40,32 @@ const manager = () => {
             passwordRef.current.type = "text"
         }
     }
+
     const savePassword = () => {
-        setpasswordArray([...passwordArray, form])
-        localStorage.setItem("password", JSON.stringify([...passwordArray, form]))
-        console.log([...passwordArray, form])
+        const newPassword = { ...form, id: uuidv4() };
+        const updatedArray = [...passwordArray, newPassword];
+        setpasswordArray(updatedArray);
+        setform({ site: "", username: "", password: "" });
+        localStorage.setItem("passwords", JSON.stringify(updatedArray));
     }
+
+    const deletePassword = (deleteid) => {
+        console.log("Deleteing password with id ", deleteid)
+        let c = confirm("Do you really want to delete this password")
+        if (c) {
+            const updatedArray = passwordArray.filter((item) => item.id != deleteid);
+            setpasswordArray(updatedArray);
+            localStorage.setItem("passwords", JSON.stringify(updatedArray));
+        }
+    }
+
+    const editPassword = (editid) => {
+        console.log("Editing password with id ", editid)
+        setform(passwordArray.filter((item) => (item.id === editid))[0])
+        const updatedArray = passwordArray.filter((item) => item.id != editid);
+        setpasswordArray(updatedArray)
+    }
+
     const handleChange = (e) => {
         setform({
             ...form,
@@ -86,7 +108,7 @@ const manager = () => {
                     </div>
                     <button onClick={savePassword} className='flex justify-center items-center bg-green-400 rounded-full px-4 py-2 w-fit hover:bg-green-300 hover:cursor-pointer gap-2 border border-green-900'>
                         <span className="material-symbols-outlined">add_ad</span>
-                        Add Password
+                        Save
                     </button>
                 </div>
                 <div className="passwords">
@@ -99,6 +121,7 @@ const manager = () => {
                                     <th className='py-2'>Site</th>
                                     <th className='py-2'>Username</th>
                                     <th className='py-2'>Password</th>
+                                    <th className='py-2'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody className='bg-green-100'>
@@ -117,6 +140,12 @@ const manager = () => {
                                             <div className='flex items-center justify-between px-2'>
                                                 <div>{item.password}</div>
                                                 <div className="material-symbols-outlined cursor-pointer" onClick={() => { copyText(item.password) }}>content_copy</div>
+                                            </div>
+                                        </td>
+                                        <td className='py-1 border border-white text-center w-20'>
+                                            <div className='flex justify-center items-center'>
+                                                <div className="material-symbols-outlined cursor-pointer" onClick={() => { editPassword(item.id) }}>edit</div>
+                                                <div className="material-symbols-outlined cursor-pointer" onClick={() => { deletePassword(item.id) }}>delete</div>
                                             </div>
                                         </td>
                                     </tr>

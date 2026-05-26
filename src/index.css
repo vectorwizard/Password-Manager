@@ -2,6 +2,6 @@
 
 @layer components{
     .mycontainer{
-        @apply container px-40 py-16 mx-auto w-3/4;
+        @apply container px-30 py-16 mx-auto w-3/4;
     }
 }
