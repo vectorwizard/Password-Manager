@@ -42,7 +42,7 @@ const manager = () => {
     }
 
     const savePassword = () => {
-        if (form.site.length > 3 && form.username.length > 3 && password.username.length > 3) {
+        if (form.site.length > 3 && form.username.length > 3 && form.password.length > 3) {
             const newPassword = { ...form, id: uuidv4() };
             const updatedArray = [...passwordArray, newPassword];
             setpasswordArray(updatedArray);
@@ -59,7 +59,7 @@ const manager = () => {
                 theme: "dark",
             });
         }
-        else{
+        else {
             toast('Error: Password not saved!')
         }
     }
@@ -112,9 +112,9 @@ const manager = () => {
                 pauseOnHover
                 theme="light"
             />
-            <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
+            <div className="absolute inset-0 -z-10 h-full w-full"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-green-400 opacity-20 blur-[100px]"></div></div>
             <div className="p-2 md:p-0 md: mycontainer min-h-[82vh]">
-                <div className="logo font-bold text-2xl text-center">
+                <div className="logo font-bold text-2xl text-center pt-4 ">
                     <span className="text-green-700">&lt;</span>
                     Pass
                     <span className="text-green-700">OP/&gt;</span>
